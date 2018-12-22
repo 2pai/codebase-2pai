@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "iojs"
+  - "10"
+  
+cahce: npm
+
+install:
+  - npm install
+  - npm run test
