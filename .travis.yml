@@ -1,11 +1,13 @@
 language: node_js
 node_js:
-  - "iojs"
   - "10"
   
 cahce: npm
 
+env:
+  - BASIC_AUTH_USERNAME = '2pai'
+  - BASIC_AUTH_PASSWORD = 'development-1290-2018-2-auth-137238'
+
 install:
   - npm install
-  - ls
   - npm run test
