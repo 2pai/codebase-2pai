@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon index.js",
     "eslint": "eslint bin test",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint:fix": "eslint bin test --fix",
+    "test": "jest test --watchAll"
   },
   "author": "",
   "license": "ISC",
@@ -25,9 +26,11 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "supertest": "^3.3.0"
   }
 }
