@@ -7,7 +7,7 @@
     "start": "nodemon index.js",
     "eslint": "eslint bin test",
     "eslint:fix": "eslint bin test --fix",
-    "test": "jest test --watchAll"
+    "test": "jest test"
   },
   "author": "",
   "license": "ISC",

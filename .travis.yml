@@ -4,7 +4,9 @@ node_js:
 cahce: npm
 env:
   - BASIC_AUTH_USERNAME=2pai BASIC_AUTH_PASSWORD=development-1290-2018-2-auth-137238
-before_script: 
-  - "npm install"
-script:
-  - "npm test"
+jobs:
+  include:
+    - stage: install
+      script: npm install
+    - stage: test
+      script: npm test
