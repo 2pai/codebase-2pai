@@ -1,5 +1,4 @@
-'use strict';
-require('dotenv').config();
+const cfg = require('../config/globalConfig');
 class User{
   constructor(uname,pass){
     this.username = uname;
@@ -11,7 +10,7 @@ class User{
 }
 
 module.exports.findByUser = (username , callback ) => {
-  const auth = [{username : process.env.BASIC_AUTH_USERNAME , password: process.env.BASIC_AUTH_PASSWORD}];
+  const auth = [{username : cfg.getBasicAuthUsername(), password: cfg.getBasicAuthPassword()}];
   let dataUser;
 
   dataUser = auth.map((val) => {
