@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "eslint": "eslint bin test",
-    "eslint:fix": "eslint bin test --fix",
+    "eslint:fix": "eslint bin test . --fix",
     "test": "jest test"
   },
   "author": "",
@@ -18,7 +18,9 @@
     "express": "^4.16.4",
     "express-auth-parser": "^0.1.2",
     "express-query-parser": "^1.0.2",
+    "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.10",
+    "nodemon": "~1.18.9",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
