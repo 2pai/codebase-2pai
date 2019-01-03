@@ -1,10 +1,10 @@
-'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
 const authParser = require('express-auth-parser');
 const queryParser = require('express-query-parser');
 const wrapper = require('../helper/util/wrapper');
 const basicAuth = require('../auth/basic_auth');
+const jwt = require('../auth/jwt_auth');
 const crossOrigin = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
