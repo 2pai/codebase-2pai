@@ -4,9 +4,16 @@ node_js:
 cahce: npm
 env:
   - BASIC_AUTH_USERNAME=2pai BASIC_AUTH_PASSWORD=development-1290-2018-2-auth-137238
+stages:
+  - install
+  - lint
+  - test
+
 jobs:
   include:
     - stage: install
       script: npm install
+    - stage: lint
+      script: node_modules/eslint/bin/eslint.js .
     - stage: test
       script: npm test
