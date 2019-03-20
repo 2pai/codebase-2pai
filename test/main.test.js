@@ -28,17 +28,26 @@ describe('Test Server', () => {
   });
 
   it('should be respond unauthorized',async () => {
-    const req = await request(this.server).get('/basicAuth').auth('','',{type:'basic'});
+    const req = await request(this.server)
+      .get('/basicAuth')
+      .auth('','',{type:'basic'});
+
     expect(req.text).toEqual('Unauthorized');
   });
 
   it('should be 401 error code',async () => {
-    const req = await request(this.server).get('/basicAuth').auth('','',{type:'basic'});
+    const req = await request(this.server)
+      .get('/basicAuth')
+      .auth('','',{type:'basic'});
+
     expect(req.statusCode).toEqual(401);
   });
 
   it('should be equalTo respond',async () => {
-    const req = await request(this.server).get('/basicAuth').auth('2pai','development-1290-2018-2-auth-137238',{type:'basic'});
+    const req = await request(this.server)
+      .get('/basicAuth')
+      .auth('2pai','development-1290-2018-2-auth-137238',{type:'basic'});
+
     expect(req.text).toEqual('Hey U access this from Basic Auth!');
   });
 });
