@@ -4,8 +4,14 @@ const error = (error, description = '', code ) => ({error,code,message:descripti
 
 const response = (res, type, result, message, code) => {
   /* eslint no-param-reassign: 2 */
+  let data = {};
   if (message) result.message = message;
   if (code) result.code = code;
+  if(result.data === null || result.data === ''){
+    data = {};
+  }else{
+    data = result.data;
+  }
   let status;
 
   switch (type) {
@@ -22,7 +28,7 @@ const response = (res, type, result, message, code) => {
   res.status(result.code).send(
     {
       success: status,
-      data: result.data,
+      data: data,
       message: result.message,
       code: result.code
     });

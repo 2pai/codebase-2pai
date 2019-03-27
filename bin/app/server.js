@@ -4,6 +4,7 @@ const authParser = require('express-auth-parser');
 const queryParser = require('express-query-parser');
 const wrapper = require('../helper/util/wrapper');
 const basicAuth = require('../auth/basic_auth');
+const userHandler = require('../modules/user/handlers/apiHandlers');
 const jwt = require('../auth/jwt_auth');
 const crossOrigin = (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -40,6 +41,9 @@ function appServer (){
   //basic auth
   this.server.get('/basicAuth', basicAuth.isAuth,(req, res) => res.send('Hey U access this from Basic Auth!'));
 
+  //user
+  this.server.post('/api/v1/user/login',basicAuth.isAuth,userHandler.login);
+  this.server.post('/api/v1/user/register',basicAuth.isAuth,userHandler.register);
 }
 
 module.exports = appServer;
