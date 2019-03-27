@@ -62,3 +62,9 @@ typings/
 
 # dotenv environment variables file
 .env
+
+#pem & pub key
+private.pem
+public.pub
+
+.vscode
