@@ -3,7 +3,7 @@ const validate = require('validate.js');
 const mongoConnection = require('./connection');
 const wrapper = require('../../../helper/util/wrapper');
 const log = require('../../../helper/util/logger');
-
+const ObjectID = require('mongodb').ObjectID;
 class DB {
   constructor(config) {
     this.config = config;
@@ -31,7 +31,6 @@ class DB {
     }
     try {
       const cacheConnection = result.data.db;
-      //logger.log(ctx, JSON.stringify(cacheConnection), 'check cacheConnection');
       const connection = cacheConnection.db(dbName);
       const db = connection.collection(this.collectionName);
       const recordset = await db.findOne(parameter);
@@ -43,6 +42,31 @@ class DB {
     } catch (err) {
       log.log(ctx, err.message, 'Error find data in mongodb');
       return wrapper.error(`Error Find One Mongo ${err.message}`, `${err.message}`, 409);
+    }
+
+  }
+  async deleteOne(parameter){
+    const ctx='mongodb-deleteOne';
+    const dbName = await this.getDatabase();
+    const result = await mongoConnection.getConnection(this.config);
+    if (result.err) {
+      log.log(ctx, result.err.message, 'Error mongodb connection');
+      return result;
+    }
+    try {
+      const cacheConnection = result.data.db;
+      const connection = cacheConnection.db(dbName);
+      const db = connection.collection(this.collectionName);
+      if(parameter._id) parameter._id = ObjectID(parameter._id);
+      const recordset = await db.deleteOne(parameter);
+      if (validate.isEmpty(recordset)) {
+        return wrapper.error('Internal Server Error', 'Failed to Deleting data to database', 404);
+      }
+      return wrapper.data(recordset,'',204);
+
+    } catch (err) {
+      log.log(ctx, err.message, 'Error Delete data in mongodb');
+      return wrapper.error(`Error Delete One Mongo ${err.message}`, `${err.message}`, 409);
     }
 
   }
@@ -135,6 +159,7 @@ class DB {
       const cacheConnection = result.data.db;
       const connection = cacheConnection.db(dbName);
       const db = connection.collection(this.collectionName);
+      if(parameter._id) parameter._id = ObjectID(parameter._id);
       const data = await db.update(parameter, updateQuery, { upsert: true });
       if (data.result.nModified >= 0) {
         const { result: { nModified } } = data;

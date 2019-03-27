@@ -1,24 +1,26 @@
-const Mongo  = require('mongodb').MongoClient();
+const Mongo  = require('mongodb').MongoClient;
 const wrapper = require('../../../helper/util/wrapper');
-const log = require('../../../helper/util/logger');
+const logger = require('../../../helper/util/logger');
 const cfg = require('../../../config/globalConfig');
 const validate = require('validate.js');
+
 const connectionPool = [];
 const connection = () => {
-  const connectionState = { index: null, cfg: '', db: null };
+  const connectionState = { index: null, config: '', db: null };
   return connectionState;
 };
 
-const createConnection = async (cfg) => {
+const createConnection = async (config) => {
   const options = { poolSize: 50,
     keepAlive: 15000,
     socketTimeoutMS: 15000,
+    useNewUrlParser: true,
     connectTimeoutMS: 15000 };
   try {
-    const connection = await Mongo.connect(cfg, options);
+    const connection = await Mongo.connect(config, options);
     return wrapper.data(connection);
   } catch (err) {
-    log.log('connection-createConnection', err, 'error');
+    logger.log('connection-createConnection', err, 'error');
     return wrapper.error(err, err.message, 503);
   }
 };
@@ -26,14 +28,14 @@ const createConnection = async (cfg) => {
 const addConnectionPool = () => {
   const connectionMongo = connection();
   connectionMongo.index = 0;
-  connectionMongo.cfg = cfg.getMongoDB();
-  log.log('addConnectionPool', 'cfg DB = ' + cfg.getMongoDB(), 'check DB');
+  connectionMongo.config = cfg.getMongoDB();
+  logger.log('addConnectionPool', 'config DB = ' + cfg.getMongoDB(), 'check DB');
   connectionPool.push(connectionMongo);
 };
 
 const createConnectionPool = async () => {
   connectionPool.map(async (currentConnection, index) => {
-    const result = await createConnection(currentConnection.cfg);
+    const result = await createConnection(currentConnection.config);
     if (result.err) {
       connectionPool[index].db = currentConnection;
     } else {
@@ -42,15 +44,15 @@ const createConnectionPool = async () => {
   });
 };
 
-const initialization = () => {
+const init = () => {
   addConnectionPool();
   createConnectionPool();
 };
 
-const ifExistConnection = async (cfg) => {
+const ifExistConnection = async (config) => {
   let state = {};
   connectionPool.map((currentConnection) => {
-    if (currentConnection.cfg === cfg) {
+    if (currentConnection.config === config) {
       state = currentConnection;
     }
     return state;
@@ -97,6 +99,6 @@ const getConnection = async (config) => {
 };
 
 module.exports = {
-  initialization,
+  init,
   getConnection
 };

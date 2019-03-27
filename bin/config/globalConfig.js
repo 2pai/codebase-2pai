@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const getDevelopmentMongoServer = () => process.env.MONGODB_DEVELOPMENT_URL;
+const getDevelopmentMongoServer = () => process.env.MONGODB_URL_DEV;
 const getProductionMongoServer = () => process.env.MONGODB_URL_PROD;
 const getEnvironmentStatus = () => process.env.ENVIRONMENT;
 

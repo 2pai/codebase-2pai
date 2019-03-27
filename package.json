@@ -19,6 +19,7 @@
     "express": "^4.16.4",
     "express-auth-parser": "^0.1.2",
     "express-query-parser": "^1.0.2",
+    "joi": "^14.3.1",
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.10",
     "nodemon": "~1.18.9",
